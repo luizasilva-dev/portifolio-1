@@ -195,6 +195,12 @@ background-color: var(--botao-active);
 }
 
 /*===especificos===*/
+.menu {
+    display: flex;
+    gap: 20px;
+    list-style: nome;
+    justify-content: center;
+}
 
 #primeiro {
 
