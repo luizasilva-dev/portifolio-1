@@ -1,227 +1,118 @@
-como eu aplico display block no meu css @import
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-/*===reset===*/
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    /*===variaveis===*/
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
+/* ===== VARIÁVEIS ===== */
 :root {
-     --cor-fundo: #F2D5D5; 
-     --cor-detalhe: #eb9090; 
-     --cor-texto-suave: #916B6B; 
-     --cor-titulo: #a86262; 
-     --texto: #7f3b3b; 
-     /* cores do botao */
-     --botao-bg: var(--cor-detalhe);
-     --botao-hover:var(--cor-titulo);
-     --botao-active: #8f4a4a;
-    /* texto */
-    --botao-texto: var(--cor-fundo);
+  --cor-fundo: #f2d5d5;
+  --cor-card: #ffffff;
+  --cor-detalhe: #eb9090;
+  --cor-titulo: #a86262;
+  --cor-texto: #7f3b3b;
 
-    /* layout */
-    --botao-padding-y: 12px;
-    --botao-padding-x: 24px;
-    --botao-radius:8px;
-
-    /* animacao */
-    --botao-transicao: 0.1s;
-    }
-    /*===global===*/
-
-/*===reset===*/
-
-*{
-
-margin: 0;
-
-padding: 0;
-
-box-sizing: border-box;
-
-/*===variaveis===*/
-
+  --radius: 12px;
 }
 
-:root {
-
---cor-fundo: #F2D5D5; 
-
- --cor-detalhe: #eb9090; 
-
- --cor-texto-suave: #916B6B; 
-
- --cor-titulo: #a86262; 
-
- --texto: #7f3b3b; 
-
- /* cores do botao */
-
- --botao-bg: var(--cor-detalhe);
-
- --botao-hover:var(--cor-titulo);
-
- --botao-active: #8f4a4a;
-
-/* texto */
-
---botao-texto: var(--cor-fundo);
-
-
-
-/* layout */
-
---botao-padding-y: 12px;
-
---botao-padding-x: 24px;
-
---botao-radius:8px;
-
-
-
-/* animacao */
-
---botao-transicao: 0.1s;
-
+/* ===== GLOBAL ===== */
+body {
+  background-color: var(--cor-fundo);
+  font-family: "Poppins", sans-serif;
+  color: var(--cor-texto);
 }
 
-/*===global===*/
-
-body{
-
-background-color: var(--cor-fundo);
-
-font-family: "Poppins", Arial, sans-serif;
-
-font-weight: 400;
-
-font-style: normal;
-
+/* ===== HEADER ===== */
+.topo {
+  background-color: var(--cor-titulo);
+  color: white;
+  text-align: center;
+  padding: 24px;
 }
 
-/*===texto===*/
-
-h2{
-
-color: var(--cor-detalhe);
-
+.subtitulo {
+  font-size: 14px;
+  opacity: 0.9;
 }
 
-p{
-
-color: var(--texto);
-
-}
-
-/*===layout===*/
-
-nav ul{
-
-
-list-style: none;
-
-padding: 0;
-
-margin: 0;
-
-text-align: center;
-
-}
-nav ul li{
-    display: inline-block;
-    margin-right: 20px;
-}
-li{
-    color: var(--texto)
-}
-
-footer{
-
-color: rgb(184, 158, 166);
-
-}
-
-.topo{
-
-background-color: var(--cor-titulo);
-
-padding: 20px;
-
-text-align: center;
-
-}
-
-/*===componentes===*/
-
-.botao{
-
-background-color: var(--botao-bg);
-
-color: var(--botao-texto);
-
-padding: var(--botao-padding-y) var(--botao-padding-x);
-
-border: none;
-
-border-radius: var(--botao-radius);
-
-cursor: pointer;
-
-font-size: 16px;
-
-font-weight: 500;
-
-transition: background-color var(--botao-transicao), transform var(--botao-transicao);
-    display: block;
-    margin: 0 auto;
-}
-
-/*===estados===*/
-
-.botao:hover{
-
-background-color: var(--botao-hover);
-
-}
-
-.botao:active{
-
-transform: scale(0.96);
-
-background-color: var(--botao-active);
-
-}
-
-/*===especificos===*/
+/* ===== MENU ===== */
 .menu {
-    display: flex;
-    gap: 20px;
-    list-style: nome;
-    justify-content: center;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 16px;
 }
 
-#primeiro {
-
-font-weight: bold;
-
-color: var(--texto)
-
+.menu li {
+  cursor: pointer;
 }
 
-/===peseudos-elementos===/
+.menu .ativo {
+  font-weight: 600;
+  text-decoration: underline;
+}
 
-p::before {
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
 
-content: "✨ ";
+  display: grid;
+  gap: 24px;
+}
 
-  }
+/* ===== CARDS ===== */
+.card {
+  background-color: var(--cor-card);
+  padding: 24px;
+  border-radius: var(--radius);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
 
+.card h2 {
+  color: var(--cor-detalhe);
+  margin-bottom: 12px;
+}
 
+.card p {
+  line-height: 1.6;
+}
 
-  p::after {
+/* ===== LISTA ===== */
+.lista-estudos {
+  margin-top: 12px;
+  padding-left: 20px;
+}
 
-    content: " ✨";
+.lista-estudos li {
+  margin-bottom: 8px;
+}
 
-    }
+/* ===== BOTÃO ===== */
+.botao {
+  margin-top: 16px;
+  background-color: var(--cor-detalhe);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.botao:hover {
+  background-color: var(--cor-titulo);
+}
+
+/* ===== FOOTER ===== */
+.rodape {
+  text-align: center;
+  padding: 24px;
+  font-size: 14px;
+  opacity: 0.8;
+}
