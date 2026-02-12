@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  
+  <!-- Fundo -->
+  <rect width="64" height="64" rx="16" fill="#f2d5d5"/>
+
+  <!-- Asa esquerda -->
+  <path d="M32 34
+           C18 14, 6 26, 18 40
+           C22 44, 26 40, 32 34Z"
+        fill="#eb9090"/>
+
+  <!-- Asa direita -->
+  <path d="M32 34
+           C46 14, 58 26, 46 40
+           C42 44, 38 40, 32 34Z"
+        fill="#eb9090"/>
+
+  <!-- Corpo -->
+  <rect x="30.5" y="24" width="3" height="22" rx="2" fill="#7f3b3b"/>
+
+  <!-- Antenas -->
+  <path d="M31 24 Q27 18 23 20"
+        stroke="#a86262"
+        stroke-width="2"
+        fill="none"/>
+
+  <path d="M33 24 Q37 18 41 20"
+        stroke="#a86262"
+        stroke-width="2"
+        fill="none"/>
+
+</svg>
