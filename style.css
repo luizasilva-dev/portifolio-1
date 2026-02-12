@@ -95,7 +95,8 @@ body {
 
 /* ===== BOTÃO ===== */
 .botao {
-  margin-top: 16px;
+  display: block;
+  margin: 16px auto 0;
   background-color: var(--cor-detalhe);
   color: white;
   border: none;
