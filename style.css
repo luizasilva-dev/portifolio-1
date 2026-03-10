@@ -1,169 +1,586 @@
-@import
+/* ============================================
+   STYLE.CSS — Portfólio Ana Luiza
+   Estrutura: Reset → Variáveis → Global → 
+              Header → Menu → Cards → Habilidades 
+              → Listas → Botão → Footer → Animações
+   ============================================ */
 
-url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-/*===reset===*/
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    /*===variaveis===*/
+
+/* ===== 1. RESET =====
+   Remove margens/paddings padrão dos navegadores.
+   box-sizing: border-box faz o padding ser incluído
+   no tamanho total do elemento (evita elementos "estourarem") */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
+
+/* ===== 2. VARIÁVEIS CSS (Custom Properties) =====
+   :root é o elemento raiz (equivale ao <html>).
+   Variáveis aqui ficam acessíveis em TODO o CSS.
+   Vantagem: mudar UMA variável muda TUDO ao mesmo tempo. */
 :root {
-     --cor-fundo: #F2D5D5; 
-     --cor-detalhe: #eb9090; 
-     --cor-texto-suave: #916B6B; 
-     --cor-titulo: #a86262; 
-     --texto: #7f3b3b; 
-     /* cores do botao */
-     --botao-bg: var(--cor-detalhe);
-     --botao-hover:var(--cor-titulo);
-     --botao-active: #8f4a4a;
-    /* texto */
-    --botao-texto: var(--cor-fundo);
+  /* Paleta de cores — rosa sofisticado */
+  --cor-fundo:      #fdf0f0;
+  --cor-card:       #ffffff;
+  --cor-detalhe:    #e07878;
+  --cor-titulo:     #c45e5e;
+  --cor-escura:     #8b3a3a;
+  --cor-texto:      #6b3434;
+  --cor-texto-suave:#a07070;
+  --cor-borda:      rgba(224, 120, 120, 0.2);
 
-    /* layout */
-    --botao-padding-y: 12px;
-    --botao-padding-x: 24px;
-    --botao-radius:8px;
+  /* Gradiente do header */
+  --grad-header: linear-gradient(135deg, #c45e5e 0%, #e07878 50%, #eb9a9a 100%);
 
-    /* animacao */
-    --botao-transicao: 0.1s;
-    }
-    /*===global===*/
+  /* Sombras */
+  --sombra-suave: 0 4px 24px rgba(180, 80, 80, 0.08);
+  --sombra-card:  0 8px 32px rgba(180, 80, 80, 0.12);
+  --sombra-hover: 0 16px 48px rgba(180, 80, 80, 0.2);
 
-/*===reset===*/
+  /* Formas */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
 
-*{
-
-margin: 0;
-
-padding: 0;
-
-box-sizing: border-box;
-
-/*===variaveis===*/
-
+  /* Transições */
+  --transicao: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-:root {
-  --cor-fundo: #f2d5d5;
-  --cor-card: #ffffff;
-  --cor-detalhe: #eb9090;
-  --cor-titulo: #a86262;
-  --cor-texto: #7f3b3b;
 
-  --radius: 12px;
+/* ===== 3. GLOBAL =====
+   Configurações que se aplicam à página inteira */
+html {
+  /* scroll-behavior: smooth faz links de âncora (#section)
+     rolarem suavemente ao invés de pular */
+  scroll-behavior: smooth;
 }
 
-/* ===== GLOBAL ===== */
 body {
   background-color: var(--cor-fundo);
-  font-family: "Poppins", sans-serif;
+  font-family: "DM Sans", sans-serif;
   color: var(--cor-texto);
+  line-height: 1.6;
+  overflow-x: hidden; /* Impede scroll horizontal indesejado */
+  cursor: none; /* Esconde o cursor padrão (usaremos um customizado via JS) */
 }
 
-/* ===== HEADER ===== */
+/* ===== CURSOR PERSONALIZADO =====
+   Dois elementos circulares que seguem o mouse via JS */
+.cursor {
+  width: 12px;
+  height: 12px;
+  background: var(--cor-titulo);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none; /* Não interfere nos cliques */
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+}
+
+.cursor-trail {
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--cor-detalhe);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  opacity: 0.5;
+  /* O trail tem transição mais lenta para criar o efeito de "seguir" */
+  transition: left 0.12s ease, top 0.12s ease, width 0.3s, height 0.3s;
+}
+
+/* Quando passa por cima de elementos clicáveis, o cursor muda */
+body:has(button:hover, li:hover, a:hover) .cursor {
+  width: 20px;
+  height: 20px;
+  background: var(--cor-escura);
+}
+
+
+/* ===== PARTÍCULAS DE FUNDO =====
+   Geradas pelo JS como pequenos elementos flutuantes */
+.bg-particles {
+  position: fixed;
+  inset: 0; /* Equivale a: top:0; right:0; bottom:0; left:0 */
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+/* Cada partícula é um <div> criado pelo JS com esta classe */
+.particula {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(224,120,120,0.15), transparent);
+  animation: flutuar var(--dur, 8s) ease-in-out infinite var(--delay, 0s);
+}
+
+@keyframes flutuar {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.4; }
+  50%       { transform: translateY(-30px) scale(1.1); opacity: 0.8; }
+}
+
+
+/* ===== 4. HEADER =====
+   position: relative + z-index garante que fique
+   acima das partículas de fundo */
 .topo {
-  background-color: var(--cor-titulo);
+  background: var(--grad-header);
   color: white;
   text-align: center;
-  padding: 24px;
+  padding: 60px 24px 80px; /* Padding extra no bottom por causa da onda SVG */
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
 }
 
+/* Efeito de brilho que se move dentro do header */
+.topo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(255,255,255,0.15), transparent 60%);
+  pointer-events: none;
+}
+
+/* Centraliza o conteúdo do header */
+.topo-inner {
+  position: relative;
+  z-index: 2;
+}
+
+/* Área do nome com tags HTML decorativas */
+.nome-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+/* As tags <Ana e /> decorativas */
+.tag-html {
+  font-family: "DM Serif Display", serif;
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  /* clamp(min, ideal, max) — tamanho responsivo automático */
+  opacity: 0.7;
+  letter-spacing: 2px;
+}
+
+/* Nome principal com animação ao carregar */
+.nome-principal {
+  font-family: "DM Serif Display", serif;
+  font-size: clamp(3rem, 8vw, 5rem);
+  letter-spacing: -2px;
+  line-height: 1;
+  animation: surgir 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes surgir {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Subtítulo com cursor piscando (efeito de digitação) */
 .subtitulo {
-  font-size: 14px;
-  opacity: 0.9;
+  font-size: 1rem;
+  opacity: 0.85;
+  margin-bottom: 32px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
-/* ===== MENU ===== */
+/* O cursor "|" que pisca */
+.cursor-texto {
+  animation: piscar 1s step-end infinite;
+}
+
+@keyframes piscar {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Onda SVG que fica na base do header, criando transição suave */
+.onda {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  z-index: 2;
+}
+
+.onda svg {
+  width: 100%;
+  height: 100%;
+}
+
+
+/* ===== 5. MENU DE NAVEGAÇÃO ===== */
 .menu {
   list-style: none;
   display: flex;
   justify-content: center;
-  gap: 24px;
-  margin-top: 16px;
+  gap: 8px;
+  flex-wrap: wrap; /* Quebra linha em telas pequenas */
 }
 
 .menu li {
   cursor: pointer;
-  transition: all 0.3;
-}
-
-.menu .ativo {
-  font-weight: bold;
-  text-decoration: underline;
+  padding: 8px 20px;
+  border-radius: 999px; /* Forma de pílula */
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  transition: var(--transicao);
+  border: 1px solid transparent;
 }
 
 .menu li:hover {
-  opacity: 0.8;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* ===== CONTAINER ===== */
+/* Item ativo tem fundo branco + texto colorido */
+.menu .ativo {
+  background: white;
+  color: var(--cor-titulo);
+  font-weight: 600;
+  /* box-shadow cria um brilho sutil */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+
+/* ===== 6. CONTAINER PRINCIPAL ===== */
 .container {
-  max-width: 900px;
-  margin: 40px auto;
+  max-width: 860px;
+  margin: 48px auto;
   padding: 0 20px;
+  /* position + z-index garantem que fique acima das partículas */
+  position: relative;
+  z-index: 1;
+}
 
-  display: grid;
+/* Seções ficam empilhadas com espaço entre elas */
+.secao {
+  display: flex;
+  flex-direction: column;
   gap: 24px;
+  /* Animação de entrada */
+  animation: entrar 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* ===== CARDS ===== */
+@keyframes entrar {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* .escondida: o JS adiciona/remove esta classe para trocar seções */
+.escondida {
+  display: none;
+}
+
+
+/* ===== 7. CARDS ===== */
 .card {
-  background-color: var(--cor-card);
-  padding: 24px;
-  border-radius: var(--radius);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  background: var(--cor-card);
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--sombra-card);
+  border: 1px solid var(--cor-borda);
+  /* Transição suave no hover */
+  transition: transform var(--transicao), box-shadow var(--transicao);
 }
 
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-hover);
+}
+
+/* Card de destaque: tem borda colorida no topo */
+.card-destaque {
+  border-top: 3px solid var(--cor-detalhe);
+  position: relative; /* Para o .card-deco se posicionar em relação a ele */
+}
+
+/* Decoração flutuante no canto do card destaque */
+.card-deco {
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  font-size: 2rem;
+  opacity: 0.3;
+  /* Animação de rotação lenta e contínua */
+  animation: girar 8s linear infinite;
+}
+
+@keyframes girar {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* h2 dentro de cards */
 .card h2 {
-  color: var(--cor-detalhe);
+  font-family: "DM Serif Display", serif;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  color: var(--cor-escura);
   margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.card h3 {
+  font-size: 1.1rem;
+  color: var(--cor-titulo);
+  margin-bottom: 20px;
+  font-weight: 600;
 }
 
 .card p {
-  line-height: 1.6;
+  color: var(--cor-texto-suave);
+  font-size: 1rem;
 }
 
-/* ===== LISTA ===== */
-.lista-estudos {
-  margin-top: 12px;
-  padding-left: 20px;
+/* .card p::before e ::after removidos do estilo original
+   pois poluíam muito o visual */
+
+/* Grid de 2 colunas para os cards menores */
+.card-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
 
-.lista-estudos li {
+/* Card mini: versão menor com ícone */
+.card-mini {
+  text-align: center;
+  padding: 28px 20px;
+}
+
+.card-icone {
+  display: block;
+  font-size: 2.4rem;
+  margin-bottom: 12px;
+}
+
+.card-mini h3 {
+  text-align: center;
   margin-bottom: 8px;
 }
 
-/* ===== BOTÃO ===== */
+
+/* ===== 8. BARRAS DE HABILIDADE ===== */
+.habilidades {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.habilidade-item {}
+
+/* Nome da habilidade + porcentagem lado a lado */
+.habilidade-nome {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--cor-texto);
+}
+
+.habilidade-pct {
+  color: var(--cor-detalhe);
+  font-weight: 600;
+}
+
+/* Trilho cinza de fundo da barra */
+.barra-fundo {
+  height: 8px;
+  background: rgba(224,120,120,0.12);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+/* Barra colorida — largura animada pelo JS de 0% até o valor em data-pct */
+.barra-progresso {
+  height: 100%;
+  width: 0%; /* Começa em 0, o JS anima até o valor correto */
+  background: linear-gradient(90deg, var(--cor-detalhe), var(--cor-escura));
+  border-radius: 999px;
+  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* ===== 9. LISTA DE ESTUDOS ===== */
+.lista-estudos {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Cada item é um li clicável */
+.estudo-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transicao);
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+}
+
+.estudo-item:hover {
+  background: rgba(224,120,120,0.06);
+  border-color: var(--cor-borda);
+}
+
+/* Ícone de check/círculo */
+.check {
+  font-size: 1.1rem;
+  width: 28px;
+  text-align: center;
+  flex-shrink: 0; /* Não encolhe em telas pequenas */
+}
+
+/* Item concluído: texto riscado + ícone colorido */
+.estudo-item.concluido {
+  color: var(--cor-texto-suave);
+}
+
+.estudo-item.concluido .check {
+  color: var(--cor-detalhe);
+  font-weight: bold;
+}
+
+.estudo-item.concluido span:last-child {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+
+/* Dica de clique no rodapé da lista */
+.dica-clique {
+  margin-top: 20px;
+  font-size: 0.8rem;
+  color: var(--cor-texto-suave);
+  text-align: center;
+  opacity: 0.7;
+}
+
+
+/* ===== 10. BOTÃO ===== */
 .botao {
-  display: block;
-  margin: 16px auto 0;
-  background-color: var(--cor-detalhe);
+  display: inline-block;
+  margin-top: 20px;
+  background: var(--cor-detalhe);
   color: white;
   border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 500;
+  padding: 14px 32px;
+  border-radius: 999px; /* Formato pílula */
+  cursor: none; /* Cursor personalizado */
+  font-family: "DM Sans", sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  /* Transição suave em todas as propriedades que mudam */
+  transition: var(--transicao);
+  /* position: relative necessário para o ::after (brilho) */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efeito de brilho passando pelo botão ao hover */
+.botao::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s;
+}
+
+.botao:hover::after {
+  transform: translateX(100%);
 }
 
 .botao:hover {
-  background-color: var(--cor-titulo);
+  background: var(--cor-escura);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(139, 58, 58, 0.3);
 }
 
-/===peseudos-elementos===/
+.botao:active {
+  transform: translateY(0);
+}
 
-p::before {
 
-content: "✨ ";
+/* ===== 11. FOOTER ===== */
+.rodape {
+  background: var(--cor-escura);
+  color: rgba(255,255,255,0.9);
+  text-align: center;
+  padding: 40px 24px;
+  margin-top: 40px;
+  position: relative;
+  z-index: 1;
+}
 
+.rodape-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rodape strong {
+  color: white;
+}
+
+.rodape-sub {
+  font-size: 0.82rem;
+  opacity: 0.6;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+/* Coração pulsante */
+.coracao {
+  display: inline-block;
+  animation: pulsar 1.2s ease-in-out infinite;
+  color: #f9a8a8;
+}
+
+@keyframes pulsar {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.3); }
+}
+
+
+/* ===== 12. RESPONSIVIDADE =====
+   @media: regras que só valem em determinados tamanhos de tela */
+@media (max-width: 640px) {
+  /* Em telas pequenas: 1 coluna ao invés de 2 */
+  .card-grid-2 {
+    grid-template-columns: 1fr;
   }
 
+  .card {
+    padding: 24px 20px;
+  }
 
+  /* Esconde o cursor personalizado em touch (não faz sentido) */
+  .cursor, .cursor-trail {
+    display: none;
+  }
 
-  p::after {
-
-    content: " ✨";
-
-    }
+  body {
+    cursor: auto; /* Restaura cursor padrão no mobile */
+  }
+}

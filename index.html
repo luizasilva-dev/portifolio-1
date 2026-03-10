@@ -1,71 +1,191 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ana Luiza | Portfólio</title>
-  <meta name="author" content="Ana Luiza | Portfólio">
+  <meta name="author" content="Ana Luiza">
+  <meta property="og:title" content="Ana Luiza | Portfólio">
+  <meta property="og:description" content="Portfólio de desenvolvimento web — HTML, CSS e JavaScript">
+  <meta property="og:type" content="website">
 
-    <!-- Open Graph básico -->
-  <meta property="og:title" content="Portfólio">
-  <meta property="og:description" content="inicio do meu portfólio para aprendizado ultilizando as linguagens HTML, CSS e JavaScript">
-  <meta property="og:type" content="website/ portfólio">
+  <!-- Google Fonts: DM Serif Display (título elegante) + DM Sans (corpo moderno) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
 
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- ===== HEADER / TOPO ===== -->
-  <header class="topo">
-    <h1>Ana Luiza</h1>
-    <p class="subtitulo">Portfólio em construção</p>
+  <!-- CURSOR PERSONALIZADO -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-trail" id="cursorTrail"></div>
 
-    <nav>
-      <ul class="menu">
-        <li class="ativo">Início</li>
-        <li>Sobre mim</li>
-        <li>Estudos</li>
-      </ul>
-    </nav>
+  <!-- PARTÍCULAS DE FUNDO -->
+  <div class="bg-particles" id="bgParticles"></div>
+
+  <!-- ===== HEADER ===== -->
+  <!-- O header agora tem uma animação de entrada (classe 'fade-in' adicionada pelo JS) -->
+  <header class="topo">
+    <div class="topo-inner">
+      <!-- Logo/nome com efeito de brilho -->
+      <div class="nome-area">
+        <span class="tag-html">&lt;Ana</span>
+        <h1 class="nome-principal">Luiza</h1>
+        <span class="tag-html">/&gt;</span>
+      </div>
+
+      <p class="subtitulo">
+        <span class="subtitulo-linha">Portfólio em construção</span>
+        <span class="cursor-texto">|</span>
+      </p>
+
+      <!-- Navegação: cada item tem data-secao para o JS saber qual seção mostrar -->
+      <nav>
+        <ul class="menu" id="menu">
+          <li class="ativo" data-secao="inicio">Início</li>
+          <li data-secao="sobre">Sobre mim</li>
+          <li data-secao="estudos">Estudos</li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Ondinha decorativa no fundo do header -->
+    <div class="onda">
+      <svg viewBox="0 0 1200 80" preserveAspectRatio="none">
+        <path d="M0,40 C300,80 900,0 1200,40 L1200,80 L0,80 Z" fill="var(--cor-fundo)"/>
+      </svg>
+    </div>
   </header>
 
   <!-- ===== CONTEÚDO PRINCIPAL ===== -->
-  <main class="container">
+  <main class="container" id="conteudo-principal">
 
-    <!-- CARD -->
-    <section class="card">
-      <h2>Quem sou eu</h2>
-      <p>
-        Olá, meu nome é Ana Luiza e estou iniciando meus estudos em desenvolvimento web.
-      </p>
-      <button class="botao">Meus estudos</button>
+    <!-- SEÇÃO INÍCIO -->
+    <!-- data-secao="inicio" diz ao JS a qual página esta seção pertence -->
+    <section class="secao" data-secao="inicio">
+
+      <div class="card card-destaque">
+        <div class="card-deco">✦</div>
+        <h2>Olá, mundo! 👋</h2>
+        <p>Meu nome é <strong>Ana Luiza</strong> e estou iniciando minha jornada no desenvolvimento web. Este portfólio vai crescer junto comigo!</p>
+        <button class="botao" id="btnEstudos">Ver meus estudos ↓</button>
+      </div>
+
+      <div class="card-grid-2">
+        <div class="card card-mini">
+          <span class="card-icone">🎯</span>
+          <h3>Objetivo</h3>
+          <p>Aprender desenvolvimento web do zero e criar projetos incríveis.</p>
+        </div>
+        <div class="card card-mini">
+          <span class="card-icone">💡</span>
+          <h3>Curiosidade</h3>
+          <p>Este portfólio é atualizado conforme novas tecnologias são aprendidas!</p>
+        </div>
+      </div>
+
     </section>
 
-    <!-- CARD -->
-    <section class="card" id="estudos">
-      <h2>O que estou estudando</h2>
-      <ul class="lista-estudos">
-        <li>Estrutura básica de HTML</li>
-        <li>Estilização com CSS</li>
-        <li>Organização com header, main e footer</li>
-      </ul>
+    <!-- SEÇÃO SOBRE MIM (escondida por padrão) -->
+    <section class="secao escondida" data-secao="sobre">
+
+      <div class="card card-destaque">
+        <div class="card-deco">♡</div>
+        <h2>Sobre mim</h2>
+        <p>Sou a <strong>Ana Luiza</strong>, apaixonada por tecnologia e criatividade. Estou aprendendo a transformar ideias em código!</p>
+      </div>
+
+      <div class="card">
+        <h3>Habilidades em desenvolvimento</h3>
+        <!-- Barras de progresso animadas pelo JS -->
+        <div class="habilidades">
+          <div class="habilidade-item">
+            <div class="habilidade-nome">
+              <span>HTML</span>
+              <span class="habilidade-pct">60%</span>
+            </div>
+            <div class="barra-fundo">
+              <div class="barra-progresso" data-pct="60"></div>
+            </div>
+          </div>
+          <div class="habilidade-item">
+            <div class="habilidade-nome">
+              <span>CSS</span>
+              <span class="habilidade-pct">50%</span>
+            </div>
+            <div class="barra-fundo">
+              <div class="barra-progresso" data-pct="50"></div>
+            </div>
+          </div>
+          <div class="habilidade-item">
+            <div class="habilidade-nome">
+              <span>JavaScript</span>
+              <span class="habilidade-pct">20%</span>
+            </div>
+            <div class="barra-fundo">
+              <div class="barra-progresso" data-pct="20"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </section>
 
-    <!-- CARD -->
-    <section class="card">
-      <h2>Curiosidade</h2>
-      <p>
-        Este portfólio será atualizado conforme eu aprender novas tecnologias.
-      </p>
+    <!-- SEÇÃO ESTUDOS (escondida por padrão) -->
+    <section class="secao escondida" data-secao="estudos">
+
+      <div class="card card-destaque">
+        <div class="card-deco">✿</div>
+        <h2>O que estou estudando</h2>
+        <p>Minha trilha de aprendizado até agora:</p>
+      </div>
+
+      <!-- Lista de estudos: cada item clicável marca como concluído via JS -->
+      <div class="card">
+        <ul class="lista-estudos" id="listaEstudos">
+          <li class="estudo-item concluido" data-id="1">
+            <span class="check">✓</span>
+            <span>Estrutura básica de HTML</span>
+          </li>
+          <li class="estudo-item concluido" data-id="2">
+            <span class="check">✓</span>
+            <span>Estilização com CSS</span>
+          </li>
+          <li class="estudo-item concluido" data-id="3">
+            <span class="check">✓</span>
+            <span>Organização com header, main e footer</span>
+          </li>
+          <li class="estudo-item" data-id="4">
+            <span class="check">○</span>
+            <span>JavaScript básico</span>
+          </li>
+          <li class="estudo-item" data-id="5">
+            <span class="check">○</span>
+            <span>Responsividade e mobile-first</span>
+          </li>
+          <li class="estudo-item" data-id="6">
+            <span class="check">○</span>
+            <span>Git e GitHub</span>
+          </li>
+        </ul>
+        <p class="dica-clique">💡 Clique em um item para marcar como concluído!</p>
+      </div>
+
     </section>
 
   </main>
 
   <!-- ===== FOOTER ===== -->
   <footer class="rodape">
-    <p>Site em desenvolvimento — criado por Ana Luiza</p>
+    <div class="rodape-inner">
+      <p>Feito com <span class="coracao">♥</span> por <strong>Ana Luiza</strong></p>
+      <p class="rodape-sub">Site em desenvolvimento — cada dia um aprendizado novo</p>
+    </div>
   </footer>
-<script src="main.js"></script>
+
+  <!-- JS no final do body: garante que o HTML já foi carregado antes de rodar -->
+  <script src="main.js"></script>
 </body>
 </html>
